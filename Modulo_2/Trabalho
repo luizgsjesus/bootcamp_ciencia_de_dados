@@ -1,0 +1,55 @@
+/*
+Quantos registros são retornados ao executar o seguinte
+comando sql no banco de dados após ter povoado a tabela de estados: 
+SELECT * FROM estado WHERE NomeEstado like 'P%':
+Resposta: 5
+ */
+ 
+SELECT * FROM estado Where NomeEstado like 'P%';
+
+/*
+Após executar todos os passos do enunciado do trabalho prático 
+e ter povoado todas as tabelas do banco de dados, qual o total de 
+registros da tabela ‘caracteristicasgerais’?
+Resposta: 13
+*/
+
+SELECT count(*) FROM caracteristicasgerais;
+
+/*
+**Crie uma consulta sql para verificar a quantidade de imóveis 
+**cadastrados no estado de RS. Após executar esse sql, qual o valor retornado?
+Resposta: 8
+*/
+
+SELECT count(*) FROM imovel
+INNER JOIN cidade ON cidade.CodigoCompletoIBGE  = imovel.CodigoCompletoIBGE
+INNER JOIN estado ON estado.CodEstadoIBGE  = cidade.CodEstadoIBGE
+WHERE estado.SiglaEstado = 'RS';
+
+/*Crie uma consulta sql para contar quantos estados possuem imóveis 
+cadastrados em que o valor do IPTU é igual a R$ 0,00. Após executar 
+esse sql, qual o valor retornado?
+Resposta: 7
+*/
+
+SELECT count(DISTINCT NomeEstado) as QTD_Estados FROM imovel 
+INNER JOIN cidade ON cidade.CodigoCompletoIBGE  = imovel.CodigoCompletoIBGE
+INNER JOIN estado ON estado.CodEstadoIBGE  = cidade.CodEstadoIBGE
+WHERE imovel.ValorCondominio = '0';
+
+/* Quantos registros foram inseridos na tabela 
+‘caracteristicageralimovel’? Crie um sql que realize a consulta.
+Resposta: 101
+*/ 
+
+SELECT count(*) from caracteristicageralimovel;
+
+/*Qual o número do registro do imóvel (coluna codRegistro) que 
+possui o maior valor de condomínio? Crie um sql que realize 
+a consulta.
+Resposta: 8004320000000
+*/
+
+SELECT codRegistro FROM imovel
+ORDER BY ValorCondominio DESC;
