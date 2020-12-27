@@ -1,0 +1,19 @@
+import scrapy
+
+
+#SpiderMinimo.py
+class SpiderMinimo(scrapy.Spider):
+    """Scrapy spider mínimo"""
+    
+    name = 'minimo'
+    
+    
+    start_urls = ['https://www.igti.com.br/blog/','http://www.igti.com.br/']
+    
+    def parse(self, response):
+        self.log('Acessando a URL: %s' % response.url)
+    
+    
+    
+
+
