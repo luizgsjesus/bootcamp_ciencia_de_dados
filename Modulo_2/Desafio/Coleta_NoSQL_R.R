@@ -30,7 +30,7 @@ print(rownames(iris.df))
 print(colnames(iris.df))
 
 #Grava arquivo CSV
-write.csv(iris.df, "/Users/Gustavo-NB/bootcamp_ciencia_de_dados/Modulo_2/Desafio/irisFromMongo.csv", row.names=FALSE)
+write.csv(iris.df, "irisFromMongo.csv", row.names=FALSE)
 
 
 
@@ -48,6 +48,10 @@ colnames(iris.df)[4] <- "Largura_Petala"
 
 summary(iris.df)
 
+
+
+
+
 #Boxplot da coluna 
 boxplot(iris.df, col=3, ylab = "Valores (cm)", xlab = "Caracteristica")
 
@@ -55,8 +59,46 @@ boxplot(iris.df, col=3, ylab = "Valores (cm)", xlab = "Caracteristica")
 #parâmtreo col=2 indica cor das barras
 boxplot(iris.df, range = 0, col = 2, ylab = "Valores (cm)", xlab = "Caracteristica")
 
+#Mostrar todas as observações cruas da amostra A na forma de gráfico barplot
+barplot(iris.df$Comprimento_Sepala, ylab = "Valores (cm)", xlab = "Valores crus", names = as.character(iris.df$Comprimento_Sepala), cex.names=0.7, ylim=c(0,10), col=4);
+
+#Mostra histograma de frequência das observações
+hist(iris.df$Comprimento_Sepala, col=2, main="Histograma de Amostra A", xlab= "Classe de massa (g)", ylab = "Frequência");
+
+#Conta o número de documentos existentes na coleção Iris
+iris$count()
 
 
+###########IMportar e Exportar dados do MongoDB
 
+####Exportar dados de uma coleção para JSON
+#usar a função export para exibir os documentos da coleção iris
+iris$export(stdout())
 
+#gera o arquivo no diretório de trabalho ou pode-se informar o caminho
+iris$export(file("dumpIris.json"))
 
+####IMporta dados de um arquivo JSON para coleção
+#Cria uma nova conexão com o banco de dados
+irisDump <- mongo(collection = "IrisDump", db = "igti", url = "mongodb://localhost")
+
+#Importa os documentos do arquivo para a nova coleção
+irisDump$import(file('dumpIris.json'))
+
+irisDump$count()
+
+#Remove a conexão com a cole'xão irisDump
+rm(irisDump)
+
+####Desconectar
+#Desconecta do MongoDB
+iris$disconnect()
+
+iris$count()
+
+#REmove conexao com coleção Iris
+#quandoa  conexão é removida, ela será desconectada automaticamente
+
+rm(iris)
+
+iris$count()
